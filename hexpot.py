@@ -368,7 +368,7 @@ def get_ohlcv_df_from_tick_price_data_generator(generator,time_interval,start_dt
                 continue
             elif len(ohlc_df_frag_list) == 1:
                 row = ohlc_df_frag_list[0].iloc[0]
-                ohlc_dict = {'datetime': row.name.strftime('%Y-%m-%dT%H:%M:%S'), 'open': row['price'], 'high': row['price'], 'low': row['price'], 'close': row['price'], 'volume': row['volume']}
+                ohlc_dict = {'datetime': row.name.strftime('%Y-%m-%dT%H:%M:%S'), 'open': row['price'], 'high': row['price'], 'low': row['price'], 'close': row['price'],'mean':row['price'],'median':row['price'], 'volume': row['volume']}
                 ohlc_json = json.dumps(ohlc_dict)
 
             else:
@@ -377,8 +377,10 @@ def get_ohlcv_df_from_tick_price_data_generator(generator,time_interval,start_dt
                 h = merged_ohlc_df_frag['price'].max()
                 l = merged_ohlc_df_frag['price'].min()
                 c = merged_ohlc_df_frag['price'].iloc[-1]
+                mn = merged_ohlc_df_frag['price'].mean()
+                md = merged_ohlc_df_frag['price'].median()
                 v = merged_ohlc_df_frag['volume'].sum()
-                ohlc_dict = {'datetime': merged_ohlc_df_frag.iloc[0].name.strftime('%Y-%m-%dT%H:%M:%S'), 'open': o, 'high': h, 'low': l, 'close': c, 'volume': v}
+                ohlc_dict = {'datetime': merged_ohlc_df_frag.iloc[0].name.strftime('%Y-%m-%dT%H:%M:%S'), 'open': o, 'high': h, 'low': l, 'close': c,'mean':mn,'median':md, 'volume': v}
                 ohlc_json = json.dumps(ohlc_dict)
 
             ## 리셋
@@ -398,7 +400,7 @@ def get_ohlcv_df_from_tick_price_data_generator(generator,time_interval,start_dt
         pass
     elif len(ohlc_df_frag_list) == 1:
         row = ohlc_df_frag_list[0].iloc[0]
-        ohlc_dict = {'datetime': row.name.strftime('%Y-%m-%dT%H:%M:%S'), 'open': row['price'], 'high': row['price'], 'low': row['price'], 'close': row['price'],'volume': row['volume']}
+        ohlc_dict = {'datetime': row.name.strftime('%Y-%m-%dT%H:%M:%S'), 'open': row['price'], 'high': row['price'], 'low': row['price'], 'close': row['price'],'mean':row['price'],'median':row['price'], 'volume': row['volume']}
         ohlc_json = json.dumps(ohlc_dict)
         ohlc_result_list.append(ohlc_json)
     else:
@@ -407,8 +409,10 @@ def get_ohlcv_df_from_tick_price_data_generator(generator,time_interval,start_dt
         h = merged_ohlc_df_frag['price'].max()
         l = merged_ohlc_df_frag['price'].min()
         c = merged_ohlc_df_frag['price'].iloc[-1]
+        mn = merged_ohlc_df_frag['price'].mean()
+        md = merged_ohlc_df_frag['price'].median()
         v = merged_ohlc_df_frag['volume'].sum()
-        ohlc_dict = {'datetime': merged_ohlc_df_frag.iloc[0].name.strftime('%Y-%m-%dT%H:%M:%S'), 'open': o, 'high': h, 'low': l, 'close': c, 'volume': v}
+        ohlc_dict = {'datetime': merged_ohlc_df_frag.iloc[0].name.strftime('%Y-%m-%dT%H:%M:%S'),'open': o, 'high': h, 'low': l, 'close': c,'mean':mn,'median':md, 'volume': v}
         ohlc_json = json.dumps(ohlc_dict)
         ohlc_result_list.append(ohlc_json)
 
@@ -418,7 +422,7 @@ def get_ohlcv_df_from_tick_price_data_generator(generator,time_interval,start_dt
 
 
 
-class hexpo_signal_generator():
+class hexpo_trader():
     def __init__(self,rcv_port,snd_port):
         self.rcv_port = rcv_port
         self.snd_port = snd_port
@@ -445,11 +449,4 @@ class hexpo_signal_generator():
 
 
 
-
-
-
-
-########################################################
-
-from hexpot.hexpot_indicators import *
 
