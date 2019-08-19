@@ -7,34 +7,7 @@ import math
 import numpy as np
 
 ###########################################################################
-##            Telegram Alarm Chat Bot API Functions
-###########################################################################
-
-## 텔레그램 SNS 알람 정보
-
-telegram_bot_api_token = '536710324:AAE5_RURRqF0ZxkJIIssW0RmL4zN0nRoOKs'
-telegram_bot_chat_id_list = ["570303438",]
-
-def telegram_get_new_user_chat_id():
-    url = "https://api.telegram.org/bot%s/getUpdates" % telegram_bot_api_token
-    r = requests.get(url)
-    result = json.loads(r.text)
-    new_user_chat_id = str(result['result'][0]['message']['from']['id'])
-    return new_user_chat_id
-
-
-def telegram_send_msg_to_user(chat_text="Text_Examples"):
-    for chat_id in telegram_bot_chat_id_list:
-        url = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s" % (
-        telegram_bot_api_token, chat_id, chat_text)
-        r = requests.get(url)
-        result = json.loads(r.text)
-        status = result['ok']
-
-    return None
-
-###########################################################################
-##            Telegram Alarm Chat Bot API Functions
+##                  Indicators
 ###########################################################################
 
 ## 상위 시간단위 ohlcv df

@@ -118,33 +118,6 @@ def timestamp_into_kst_time(ts):
     except:
         return np.nan
 
-###########################################################################
-##            Telegram Alarm Chat Bot API Functions
-###########################################################################
-
-## 텔레그램 SNS 알람 정보
-
-telegram_bot_api_token = '536710324:AAE5_RURRqF0ZxkJIIssW0RmL4zN0nRoOKs'
-telegram_bot_chat_id_list = ["570303438",]
-
-def telegram_get_new_user_chat_id():
-    url = "https://api.telegram.org/bot%s/getUpdates" % telegram_bot_api_token
-    r = requests.get(url)
-    result = json.loads(r.text)
-    new_user_chat_id = str(result['result'][0]['message']['from']['id'])
-    return new_user_chat_id
-
-
-def telegram_send_msg_to_user(chat_text="Text_Examples"):
-    for chat_id in telegram_bot_chat_id_list:
-        url = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s" % (
-        telegram_bot_api_token, chat_id, chat_text)
-        r = requests.get(url)
-        result = json.loads(r.text)
-        status = result['ok']
-
-    return None
-
 
 ## Date list generator
 
@@ -199,7 +172,7 @@ def mk_new_dir(dir_path):
         shutil.rmtree(path=dir_path)
     os.mkdir(dir_path)
 
-def get_coin_tick_price_df(market,coin,start_datetime,end_datetime,input_dir_path,pb_class):
+def get_coin_tick_price_df(market,coin,start_datetime,end_datetime,input_dir_path,pb_class=cpformat_pb2.CoinPrice):
 
     start_date = start_datetime.split('T')[0]
     end_date = end_datetime.split('T')[0]
@@ -246,7 +219,7 @@ def get_coin_tick_price_df(market,coin,start_datetime,end_datetime,input_dir_pat
     return result_df
 
 
-def get_merged_coin_tick_price_data_file(market, coin, start_date, end_date, input_dir_path, output_dir_path, pb_cls):
+def get_merged_coin_tick_price_data_file(market, coin, start_date, end_date, input_dir_path, output_dir_path, pb_cls=cpformat_pb2.CoinPrice):
 
     to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
 
@@ -279,7 +252,7 @@ def get_merged_coin_tick_price_data_file(market, coin, start_date, end_date, inp
     print('Merging Files / Completed / File Name : {}'.format(output_file_name))
 
 
-def load_coin_tick_price_data_on_the_date_generator(market, coin, date, pb_cls, file_dir_path):
+def load_coin_tick_price_data_on_the_date_generator(market, coin, date, file_dir_path, pb_cls=cpformat_pb2.CoinPrice):
 
     file_name = '{}_{}_{}.gz'.format(market, coin, date)
     data_file_path = '{}\\{}'.format(file_dir_path, file_name)
@@ -288,7 +261,7 @@ def load_coin_tick_price_data_on_the_date_generator(market, coin, date, pb_cls, 
     return f
 
 
-def load_coin_tick_price_data_generator(market, coin, start_dt_str, end_dt_str, pb_cls, file_dir_path):
+def load_coin_tick_price_data_generator(market, coin, start_dt_str, end_dt_str, file_dir_path, pb_cls=cpformat_pb2.CoinPrice):
 
     start_date = start_dt_str.split('T')[0]
     end_date = end_dt_str.split('T')[0]
