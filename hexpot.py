@@ -83,7 +83,7 @@ import zmq
 ##            Protocol Buffers
 ###########################################
 
-from hexpot.hexpot_pb import cpformat_pb2
+from hexpot_pb import cpformat_pb2
 from google.protobuf.json_format import MessageToJson
 import stream
 
