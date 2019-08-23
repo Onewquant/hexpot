@@ -172,6 +172,11 @@ def mk_new_dir(dir_path):
         shutil.rmtree(path=dir_path)
     os.mkdir(dir_path)
 
+
+###########################################################################
+##                          Coin Data File 다루기
+###########################################################################
+
 def get_coin_tick_price_df(market,coin,start_datetime,end_datetime,input_dir_path,pb_class=cpformat_pb2.CoinPrice):
 
     start_date = start_datetime.split('T')[0]
@@ -393,24 +398,56 @@ def get_ohlcv_df_from_tick_price_data_generator(generator,time_interval,start_dt
 
     return ohlc_result_df
 
+###########################################################################
+##                        시뮬레이션 관련
+###########################################################################
 
-
-class hexpo_trader():
-    def __init__(self,rcv_port,snd_port):
+class hexpo_sim_trader():
+    def __init__(self,rcv_port,snd_port,spd_port):
         self.rcv_port = rcv_port
         self.snd_port = snd_port
+        self.spd_port = spd_port
 
-        self.rcv_settings()
-        self.snd_settings()
+        self.port_settings()
 
-    def rcv_settings(self):
+    def port_settings(self):
         self.context = zmq.Context()
+
         self.data_receiver = self.context.socket(zmq.SUB)
         self.data_receiver.connect("tcp://127.0.0.1:{}".format(self.rcv_port))
         self.data_receiver.setsockopt_string(zmq.SUBSCRIBE,"")
 
-    def snd_settings(self):
+        self.data_sender = self.context.socket(zmq.PUB)
+        self.data_sender.bind("tcp://127.0.0.1:{}".format(self.snd_port))
+
+        self.speed_reporter = self.context.socket(zmq.PUB)
+        self.speed_reporter.bind("tcp://127.0.0.1:{}".format(self.spd_port))
+
+    def default_settings(self):
+        pass
+
+    def main(self):
+        pass
+
+###########################################################################
+##                          트레이딩 관련
+###########################################################################
+
+class hexpo_trader():
+    def __init__(self,rcv_port, snd_port):
+
+        self.rcv_port = rcv_port
+        self.snd_port = snd_port
+
+        self.port_settings()
+
+    def port_settings(self):
         self.context = zmq.Context()
+
+        self.data_receiver = self.context.socket(zmq.SUB)
+        self.data_receiver.connect("tcp://127.0.0.1:{}".format(self.rcv_port))
+        self.data_receiver.setsockopt_string(zmq.SUBSCRIBE,"")
+
         self.data_sender = self.context.socket(zmq.PUB)
         self.data_sender.bind("tcp://127.0.0.1:{}".format(self.snd_port))
 
@@ -419,6 +456,3 @@ class hexpo_trader():
 
     def main(self):
         pass
-
-
-

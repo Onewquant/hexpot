@@ -15,6 +15,7 @@ import numpy as np
 def get_upper_timeframe_ohlcv_df(df,time_interval):
     df_upper = df[['open', 'high', 'low', 'close', 'volume']]
     df_upper.index = df['datetime'].map(lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S'))
+
     o = df_upper.resample(time_interval).first()['open']
     h = df_upper.resample(time_interval).max()['high']
     l = df_upper.resample(time_interval).min()['low']
