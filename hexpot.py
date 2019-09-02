@@ -434,10 +434,12 @@ class hexpo_sim_trader():
 ###########################################################################
 
 class hexpo_trader():
-    def __init__(self,rcv_port, snd_port):
+    def __init__(self,rcv_port, snd_port, lvtst_trd_rcv_port,lvtst_orb_rcv_port):
 
         self.rcv_port = rcv_port
         self.snd_port = snd_port
+        self.lvtst_trd_rcv_port = lvtst_trd_rcv_port
+        self.lvtst_orb_rcv_port = lvtst_orb_rcv_port
 
         self.port_settings()
 
@@ -450,6 +452,24 @@ class hexpo_trader():
 
         self.data_sender = self.context.socket(zmq.PUB)
         self.data_sender.bind("tcp://127.0.0.1:{}".format(self.snd_port))
+
+    def live_test_trade_data_streaming_start(self):
+
+        self.lvtst_trd_receiver = self.context.socket(zmq.SUB)
+        self.lvtst_trd_receiver.connect("tcp://127.0.0.1:{}".format(self.lvtst_trd_rcv_port))
+        self.lvtst_trd_receiver.setsockopt_string(zmq.SUBSCRIBE,"")
+
+    def live_test_orderbook_data_streaming_start(self):
+
+        self.lvtst_orb_receiver = self.context.socket(zmq.SUB)
+        self.lvtst_orb_receiver.connect("tcp://127.0.0.1:{}".format(self.lvtst_orb_rcv_port))
+        self.lvtst_orb_receiver.setsockopt_string(zmq.SUBSCRIBE, "")
+
+    def live_test_trade_data_streaming_close(self):
+        self.lvtst_trd_receiver.close()
+
+    def live_test_orderbook_data_streaming_close(self):
+        self.lvtst_orb_receiver.close()
 
     def default_settings(self):
         pass
