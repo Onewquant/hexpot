@@ -20,6 +20,35 @@ import random
 ###########################################
 
 import requests
+from io import BytesIO
+
+###########################################
+## mssql 관련 import
+###########################################
+
+import pyodbc
+import sqlalchemy
+
+###########################################
+##           자동화 관련
+###########################################
+
+import win32com.client
+import pywinauto
+from pywinauto import application, timings
+import pyautogui
+
+###########################################
+## PyQt 관련 import
+###########################################
+
+from PyQt5.QtWidgets import *
+from PyQt5 import uic
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QAxContainer import *
+
+
 
 ###########################################
 ##         데이터분석 툴
@@ -28,6 +57,7 @@ import requests
 import pandas as pd
 from pandas.io.json import json_normalize
 import numpy as np
+
 ###########################################
 ##         Process, Thread
 ###########################################
@@ -83,9 +113,11 @@ import zmq
 ##            Protocol Buffers
 ###########################################
 
-from hexpot.hexpot_pb import cpformat_pb2
+from hexpot.hexpot_pb import cpformat_pb2, kstpohlc_pb2
 from google.protobuf.json_format import MessageToJson
 import stream
+
+
 
 
 ###########################################################################
@@ -399,6 +431,172 @@ def get_ohlcv_df_from_tick_price_data_generator(generator,time_interval,start_dt
     return ohlc_result_df
 
 ###########################################################################
+##                          KStock Data File 다루기
+###########################################################################
+
+def load_stock_ohlc_price_data_on_the_date_generator(market, ticker, date, root_dir_path, pb_cls=kstpohlc_pb2.KSTPrice):
+
+    file_name = '{}_{}_{}.gz'.format(market, ticker, date)
+    data_file_path = '{}\\KRX\\{}\\{}'.format(root_dir_path, ticker, file_name)
+    f = stream.parse(ifp=data_file_path, pb_cls=pb_cls)
+
+    return f
+
+def load_stock_universe_data_generator(market, start_dt_str, end_dt_str, root_dir_path):
+
+    start_date = start_dt_str.split('T')[0]
+    end_date = end_dt_str.split('T')[0]
+
+    to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
+
+    file_name = '{}_Universe_****-**-**.csv'.format(market)
+    file_path = '{}\\{}_Universe\\{}'.format(root_dir_path,market,file_name)
+    file_list = glob.glob(file_path)
+
+    edited_input_columns = ['market','code','symbolCode','name']
+    output_columns = ['market','code','ticker','name']
+
+    result_df = pd.DataFrame(columns=output_columns)
+
+    for fp in file_list:
+        file_date = fp.split('{}_Universe_'.format(market))[-1][:-4]
+        if file_date in to_do_candidate_list:
+            df_frag = pd.read_csv(filepath_or_buffer=fp,index_col=[0],encoding='euc_kr')
+            df_frag = df_frag[edited_input_columns]
+            df_frag.columns = ['market','code','ticker','name']
+
+            result_df = result_df.append(df_frag).drop_duplicates(subset=['ticker']).sort_values(by=['ticker']).reset_index(drop=True)
+
+    return result_df
+
+
+
+def load_stock_ohlc_price_data_generator(market, ticker, start_dt_str, end_dt_str, root_dir_path, pb_cls=kstpohlc_pb2.KSTPrice):
+
+    start_date = start_dt_str.split('T')[0]
+    end_date = end_dt_str.split('T')[0]
+
+    to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
+
+    file_name = '{}_{}_****-**-**.gz'.format(market,ticker)
+    file_path = '{}\\{}\\{}\\{}'.format(root_dir_path,market,ticker,file_name)
+    file_list = glob.glob(file_path)
+    to_do_file_path_list = []
+    to_do_date_list = []
+
+    for fp in file_list:
+        file_date = fp.split('{}_{}_'.format(market,ticker))[-1][:-3]
+        if file_date in to_do_candidate_list:
+            to_do_date_list.append(file_date)
+            to_do_file_path_list.append(fp)
+
+    to_do_file_path_list.sort(reverse=False)
+
+    for fp_inx in range(len(to_do_file_path_list)):
+        if fp_inx==0:
+            fp = to_do_file_path_list[fp_inx]
+            t = stream.parse(ifp=fp, pb_cls=pb_cls)
+            continue
+        fp = to_do_file_path_list[fp_inx]
+        f = stream.parse(ifp=fp, pb_cls=pb_cls)
+        t = chain(t,f)
+
+
+    def filtered_gen_func():
+        for x in t:
+            if (x.dt >= start_dt_str)&(x.dt < end_dt_str):
+                yield x
+    return filtered_gen_func()
+
+
+def get_stock_ohlc_df(market, ticker, start_dt_str, end_dt_str,time_interval, root_dir_path, pb_cls=kstpohlc_pb2.KSTPrice):
+
+    start_date = start_dt_str.split('T')[0]
+    end_date = end_dt_str.split('T')[0]
+
+    to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
+
+    file_name = '{}_{}_****-**-**.gz'.format(market,ticker)
+    file_path = '{}\\{}\\{}\\{}'.format(root_dir_path,market,ticker,file_name)
+    file_list = glob.glob(file_path)
+    to_do_file_path_list = []
+    to_do_date_list = []
+
+    for fp in file_list:
+        file_date = fp.split('{}_{}_'.format(market,ticker))[-1][:-3]
+        if file_date in to_do_candidate_list:
+            to_do_date_list.append(file_date)
+            to_do_file_path_list.append(fp)
+
+    to_do_file_path_list.sort(reverse=False)
+
+
+    for fp_inx in range(len(to_do_file_path_list)):
+        if fp_inx==0:
+            fp = to_do_file_path_list[fp_inx]
+            t = stream.parse(ifp=fp, pb_cls=pb_cls)
+            continue
+        fp = to_do_file_path_list[fp_inx]
+        f = stream.parse(ifp=fp, pb_cls=pb_cls)
+        t = chain(t,f)
+
+    ## 날짜로 필터링 후 df 만들기
+
+    l=0
+    for x in t:
+        if (x.dt >= start_dt_str)&(x.dt < end_dt_str):
+            msg_js = json.loads(MessageToJson(x))
+            try:
+                msg_js['volume']
+            except:
+                # msg_js['volume'] = np.nan
+                # msg_js['value'] = np.nan
+                continue
+
+            if (l==0):
+                result_df = pd.DataFrame([msg_js])
+
+                l=1
+                continue
+
+            result_df = result_df.append([msg_js])
+
+    try:
+        result_df = result_df.reset_index(drop=True)
+    except:
+        final_result_df = pd.DataFrame(columns=['dt','market','code','ticker','name','open','high','low','close','volume','value'])
+        return final_result_df
+
+    ## 시간프레임 설정
+
+    result_df['dt'] = result_df['dt'].map(lambda x:datetime.strptime(x,'%Y-%m-%dT%H:%M:%S'))
+    result_df = result_df.set_index(keys=['dt'])
+
+    # del result_df.index.name
+
+    final_result_df = result_df[['market','code','ticker','name']].resample(rule=time_interval,label='right',closed='right').first().fillna(method='ffill')
+    final_result_df['open']=result_df['open'].resample(rule=time_interval,label='right',closed='right').first()
+    final_result_df['high']=result_df['high'].resample(rule=time_interval,label='right',closed='right').max()
+    final_result_df['low']=result_df['low'].resample(rule=time_interval,label='right',closed='right').min()
+    final_result_df['close']=result_df['close'].resample(rule=time_interval,label='right',closed='right').last().fillna(method='ffill')
+    final_result_df['volume']=result_df['volume'].resample(rule=time_interval,label='right',closed='right').sum()
+    final_result_df['value']=result_df['value'].resample(rule=time_interval,label='right',closed='right').sum()
+
+    final_result_df['open'] = np.where(final_result_df['volume'] <= 0, final_result_df['close'], final_result_df['open'])
+    final_result_df['high'] = np.where(final_result_df['volume'] <= 0, final_result_df['close'], final_result_df['high'])
+    final_result_df['low'] = np.where(final_result_df['volume'] <= 0, final_result_df['close'], final_result_df['low'])
+
+    # final_result_df.index.name = 'dt'
+
+    final_result_df = final_result_df.reset_index(drop=False)
+
+    final_result_df['dt'] = final_result_df['dt'].map(lambda x:x.strftime('%Y-%m-%dT%H:%M:%S'))
+
+    return final_result_df
+
+
+
+###########################################################################
 ##                        시뮬레이션 관련
 ###########################################################################
 
@@ -428,6 +626,28 @@ class hexpo_sim_trader():
 
     def main(self):
         pass
+
+class hexpo_sim_trader_kstock():
+    def __init__(self,root_dir_path,snd_port):
+
+        self.root_dir_path = root_dir_path
+        self.snd_port = snd_port
+
+
+        self.port_settings()
+
+    def port_settings(self):
+        self.context = zmq.Context()
+
+        self.data_sender = self.context.socket(zmq.PUB)
+        self.data_sender.bind("tcp://127.0.0.1:{}".format(self.snd_port))
+
+    def default_settings(self):
+        pass
+
+    def main(self):
+        pass
+
 
 ###########################################################################
 ##                          트레이딩 관련

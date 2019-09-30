@@ -25,6 +25,30 @@ def get_upper_timeframe_ohlcv_df(df,time_interval):
     df_upper['datetime'] = df_upper['datetime'].map(lambda x: x.strftime('%Y-%m-%dT%H:%M:%S'))
     return df_upper
 
+def get_upper_timeframe_ohlcv_df_kstock(df,time_interval):
+    df_upper = df[['open', 'high', 'low', 'close', 'volume','value']]
+    df_upper.index = df['dt'].map(lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S'))
+
+    o = df_upper.resample(rule=time_interval,label='right',closed='right').first()['open']
+    h = df_upper.resample(rule=time_interval,label='right',closed='right').max()['high']
+    l = df_upper.resample(rule=time_interval,label='right',closed='right').min()['low']
+    c = df_upper.resample(rule=time_interval,label='right',closed='right').last()['close']
+    v = df_upper.resample(rule=time_interval,label='right',closed='right').sum()['volume']
+    vl = df_upper.resample(rule=time_interval,label='right',closed='right').sum()['value']
+    df_upper = pd.concat([o, h, l, c, v, vl], axis=1).reset_index(drop=False)
+    df_upper['dt'] = df_upper['dt'].map(lambda x: x.strftime('%Y-%m-%dT%H:%M:%S'))
+
+    ## 거래량 0인 row 제거
+
+    df_upper = df_upper[df_upper['volume']>0].reset_index(drop=False)
+
+    # df_upper['open'] = np.where(df_upper['volume'] <= 0, df_upper['close'], df_upper['open'])
+    # df_upper['high'] = np.where(df_upper['volume'] <= 0, df_upper['close'], df_upper['high'])
+    # df_upper['low'] = np.where(df_upper['volume'] <= 0, df_upper['close'], df_upper['low'])
+
+    return df_upper
+
+
 ## 거래량, 거래금액 관련
 
 def trd_volume_dataframe(df,column='close'):
@@ -133,8 +157,10 @@ def bollinger_band_dataframe(df,column='close',window=20):
     std_series = dataframe[column].rolling(center=False,window=window).std()
     ma_series = dataframe[column].rolling(center=False,window=window).mean()
 
-    dataframe['upper_sbollinger'] = ma_series + 2*std_series
-    dataframe['lower_sbollinger'] = ma_series - 2*std_series
+    dataframe['upper_bollinger'] = ma_series + 2*std_series
+    dataframe['lower_bollinger'] = ma_series - 2*std_series
+    dataframe['avg_width_bollinger'] = (dataframe['upper_bollinger'] - dataframe['lower_bollinger']).rolling(center=False, window=window).mean()
+
     return dataframe
 
 ## 변형 볼린저밴드 채널 지표 (지수이동평균선을 중심선으로 함)
@@ -144,9 +170,9 @@ def modified_bollinger_band_dataframe(df,column='close',window=20):
     std_series = dataframe[column].rolling(center=False,window=window).std()
     ema_series = exponential_moving_average_series(df=dataframe,column=column,window=window)
 
-    dataframe['upper_bollinger'] = ema_series + 2*std_series
-    dataframe['lower_bollinger'] = ema_series - 2*std_series
-    dataframe['avg_width_bollinger'] = (dataframe['upper_bollinger'] - dataframe['lower_bollinger']).rolling(center=False, window=window).mean()
+    dataframe['upper_mbollinger'] = ema_series + 2*std_series
+    dataframe['lower_mbollinger'] = ema_series - 2*std_series
+    dataframe['avg_width_mbollinger'] = (dataframe['upper_mbollinger'] - dataframe['lower_mbollinger']).rolling(center=False, window=window).mean()
 
     return dataframe
 
