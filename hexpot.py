@@ -453,8 +453,7 @@ def load_stock_universe_data_generator(market, start_dt_str, end_dt_str, root_di
     file_path = '{}\\{}_Universe\\{}'.format(root_dir_path,market,file_name)
     file_list = glob.glob(file_path)
 
-    edited_input_columns = ['market','code','symbolCode','name']
-    output_columns = ['market','code','ticker','name']
+    output_columns = ['market','code','ticker','name','market_cap']
 
     result_df = pd.DataFrame(columns=output_columns)
 
@@ -462,8 +461,8 @@ def load_stock_universe_data_generator(market, start_dt_str, end_dt_str, root_di
         file_date = fp.split('{}_Universe_'.format(market))[-1][:-4]
         if file_date in to_do_candidate_list:
             df_frag = pd.read_csv(filepath_or_buffer=fp,index_col=[0],encoding='euc_kr')
-            df_frag = df_frag[edited_input_columns]
-            df_frag.columns = ['market','code','ticker','name']
+            df_frag = df_frag[output_columns]
+
 
             result_df = result_df.append(df_frag).drop_duplicates(subset=['ticker']).sort_values(by=['ticker']).reset_index(drop=True)
 
@@ -639,8 +638,9 @@ class hexpo_sim_trader_kstock():
     def port_settings(self):
         self.context = zmq.Context()
 
-        self.data_sender = self.context.socket(zmq.PUB)
-        self.data_sender.bind("tcp://127.0.0.1:{}".format(self.snd_port))
+        # self.data_sender = self.context.socket(zmq.PUB)
+        self.data_sender = self.context.socket(zmq.PUSH)
+        self.data_sender.connect("tcp://127.0.0.1:{}".format(self.snd_port))
 
     def default_settings(self):
         pass
