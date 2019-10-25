@@ -626,6 +626,36 @@ class hexpo_sim_trader():
     def main(self):
         pass
 
+
+class hexpo_sim_mltrainer():
+    def __init__(self,rcv_port,spd_port):
+        self.rcv_port = rcv_port
+        # self.snd_port = snd_port
+        self.spd_port = spd_port
+
+        self.port_settings()
+
+    def port_settings(self):
+        self.context = zmq.Context()
+
+        self.data_receiver = self.context.socket(zmq.SUB)
+        self.data_receiver.connect("tcp://127.0.0.1:{}".format(self.rcv_port))
+        self.data_receiver.setsockopt_string(zmq.SUBSCRIBE,"")
+
+        # self.data_sender = self.context.socket(zmq.PUB)
+        # self.data_sender.bind("tcp://127.0.0.1:{}".format(self.snd_port))
+
+        self.speed_reporter = self.context.socket(zmq.PUB)
+        self.speed_reporter.bind("tcp://127.0.0.1:{}".format(self.spd_port))
+
+    def default_settings(self):
+        pass
+
+    def main(self):
+        pass
+
+
+
 class hexpo_sim_trader_kstock():
     def __init__(self,root_dir_path,snd_port):
 
