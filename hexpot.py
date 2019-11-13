@@ -113,7 +113,7 @@ import zmq
 ##            Protocol Buffers
 ###########################################
 
-from hexpot.hexpot_pb import cpformat_pb2, kstpohlc_pb2
+from hexpot.hexpot_pb import cpformat_pb2, cdformat_pb2, kstpohlc_pb2
 from google.protobuf.json_format import MessageToJson
 import stream
 
@@ -209,7 +209,7 @@ def mk_new_dir(dir_path):
 ##                          Coin Data File 다루기
 ###########################################################################
 
-def get_coin_tick_price_df(market,coin,start_datetime,end_datetime,input_dir_path,pb_class=cpformat_pb2.CoinPrice):
+def get_coin_tick_price_df(market,coin,start_datetime,end_datetime,input_dir_path,pb_class=cdformat_pb2.coinevent):
 
     start_date = start_datetime.split('T')[0]
     end_date = end_datetime.split('T')[0]
