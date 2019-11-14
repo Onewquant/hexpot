@@ -117,9 +117,6 @@ from hexpot.hexpot_pb import cpformat_pb2, cdformat_pb2, kstpohlc_pb2
 from google.protobuf.json_format import MessageToJson
 import stream
 
-
-
-
 ###########################################################################
 ##                          General Tools
 ###########################################################################
@@ -208,6 +205,120 @@ def mk_new_dir(dir_path):
 ###########################################################################
 ##                          Coin Data File 다루기
 ###########################################################################
+
+
+def load_single_market_coin_event_data_generator(market, coin, start_dt_str, end_dt_str, db_path, pb_cls=cdformat_pb2.coinevent):
+
+    start_date = start_dt_str.split('T')[0]
+    end_date = end_dt_str.split('T')[0]
+
+    start_ts_str = str(int(datetime.strptime(start_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()*1000))
+    end_ts_str = str(int(datetime.strptime(end_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()*1000))
+
+    to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
+
+    file_name = '{}_{}_****-**-**.gz'.format(market,coin)
+    file_path = '{}\\{}\\{}\\{}'.format(db_path,market,coin,file_name)
+    file_list = glob.glob(file_path)
+    to_do_file_path_list = []
+    to_do_date_list = []
+
+    for fp in file_list:
+        file_date = fp.split('{}_{}_'.format(market,coin))[-1][:-3]
+        if file_date in to_do_candidate_list:
+            to_do_date_list.append(file_date)
+            to_do_file_path_list.append(fp)
+
+    to_do_file_path_list.sort(reverse=False)
+
+    for fp_inx in range(len(to_do_file_path_list)):
+        if fp_inx==0:
+            fp = to_do_file_path_list[fp_inx]
+            t = stream.parse(ifp=fp, pb_cls=pb_cls)
+            continue
+        fp = to_do_file_path_list[fp_inx]
+        f = stream.parse(ifp=fp, pb_cls=pb_cls)
+        t = chain(t,f)
+
+    def filtered_gen_func():
+        for x in t:
+            if (x.tms < start_ts_str)|(x.tms >= end_ts_str):
+                continue
+            yield x
+
+    return filtered_gen_func()
+
+
+def load_single_market_coin_event_data_bundle(market, coin, start_dt_str, end_dt_str, db_path, pb_cls=cdformat_pb2.coinevent):
+
+    start_date = start_dt_str.split('T')[0]
+    end_date = end_dt_str.split('T')[0]
+
+    start_ts_str = str(int(datetime.strptime(start_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()*1000))
+    end_ts_str = str(int(datetime.strptime(end_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()*1000))
+
+    to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
+
+    file_name = '{}_{}_****-**-**.gz'.format(market,coin)
+    file_path = '{}\\{}\\{}\\{}'.format(db_path,market,coin,file_name)
+    file_list = glob.glob(file_path)
+    to_do_file_path_list = []
+    to_do_date_list = []
+
+    for fp in file_list:
+        file_date = fp.split('{}_{}_'.format(market,coin))[-1][:-3]
+        if file_date in to_do_candidate_list:
+            to_do_date_list.append(file_date)
+            to_do_file_path_list.append(fp)
+
+    to_do_file_path_list.sort(reverse=False)
+
+    for fp_inx in range(len(to_do_file_path_list)):
+        if fp_inx==0:
+            fp = to_do_file_path_list[fp_inx]
+            t = stream.parse(ifp=fp, pb_cls=pb_cls)
+            continue
+        fp = to_do_file_path_list[fp_inx]
+        f = stream.parse(ifp=fp, pb_cls=pb_cls)
+        t = chain(t,f)
+
+    return t
+
+
+def get_single_market_coin_event_data_merged_file(market, coin, start_date, end_date, input_dir_path, output_dir_path, pb_cls=cdformat_pb2.coinevent):
+
+    to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
+
+    file_list = glob.glob(input_dir_path+'\\{}_{}_****-**-**.gz'.format(market,coin))
+    to_do_file_path_list = []
+    to_do_date_list = []
+
+    for fp in file_list:
+        file_date = fp.split('{}_{}_'.format(market,coin))[-1][:-3]
+        if file_date in to_do_candidate_list:
+            to_do_date_list.append(file_date)
+            to_do_file_path_list.append(fp)
+
+    min_date = min(to_do_date_list)
+    max_date = max(to_do_date_list)
+
+    output_file_name = '{}_{}_{}_{}.gz'.format(market,coin,min_date.replace('-',''),max_date.replace('-',''))
+    output_file_path = output_dir_path+'\\{}'.format(output_file_name)
+
+    with stream.open(output_file_path,'a') as output_stream_file:
+
+        for cur_date in to_do_date_list:
+            input_file_name = '{}_{}_{}.gz'.format(market, coin, cur_date)
+            input_file_path = '{}\\{}'.format(input_dir_path,input_file_name)
+
+            input_stream_file = stream.parse(ifp=input_file_path, pb_cls=pb_cls)
+            for x in input_stream_file:
+                output_stream_file.write(x)
+
+    print('Merging Files / Completed / File Name : {}'.format(output_file_name))
+
+"""
+## Deprecated
 
 def get_coin_tick_price_df(market,coin,start_datetime,end_datetime,input_dir_path,pb_class=cdformat_pb2.coinevent):
 
@@ -429,6 +540,8 @@ def get_ohlcv_df_from_tick_price_data_generator(generator,time_interval,start_dt
     ohlc_result_df = pd.DataFrame([json.loads(x) for x in ohlc_result_list]).reset_index(drop=True)
 
     return ohlc_result_df
+
+"""
 
 ###########################################################################
 ##                          KStock Data File 다루기

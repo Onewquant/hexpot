@@ -93,9 +93,10 @@ message ob {
 
 message coinevent {
   string type = 1;
-  string coin = 2;
-  string tms = 3;
-  string trader = 4;
-  trd trade = 5;
-  ob orderbook = 6;
+  string market =2;
+  string coin = 3;
+  string tms = 4;
+  string trader = 5;
+  trd trade = 6;
+  ob orderbook = 7;
 }
