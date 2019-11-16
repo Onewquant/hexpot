@@ -285,6 +285,78 @@ def load_single_market_coin_event_data_bundle(market, coin, start_dt_str, end_dt
     return t
 
 
+def load_combined_coin_event_data_generator(market_coin_comb, start_dt_str, end_dt_str, db_path, pb_cls=cdformat_pb2.coinevent):
+
+    start_ts_str = str(int(datetime.strptime(start_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()*1000))
+    end_ts_str = str(int(datetime.strptime(end_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()*1000))
+
+    market_coin_bundle_dict = dict()
+    bn = 0
+    for m in market_coin_comb.keys():
+        for c in market_coin_comb[m]:
+            try:
+                mcfg = load_single_market_coin_event_data_bundle(market=m,coin=c,start_dt_str=start_dt_str,end_dt_str=end_dt_str,db_path=db_path)
+                market_coin_bundle_dict.update({bn:mcfg})
+                bn+=1
+            except:
+                print('{} / {} / {} / {} /데이터가 존재하지 않습니다'.format(m,c,start_dt_str,end_dt_str))
+                continue
+
+    if len(market_coin_bundle_dict)==0:
+        print('데이터가 존재하지 않습니다'.format(m, c, start_dt_str, end_dt_str))
+
+        class finish_msg():
+            def __init__(self):
+                self.type = 'finish_flag'
+        fin = finish_msg()
+        return fin
+
+
+    def filtered_gen_func():
+
+        comp_dict = dict()
+        comp_tms_dict = dict()
+        glob_rm_bn = set()
+        while True:
+
+            ## 최소 시간 이벤트 내보내기
+
+            for bn in market_coin_bundle_dict.keys():
+                if (bn in comp_tms_dict.keys()):
+                    continue
+                try:
+                    frag = next(market_coin_bundle_dict[bn])
+                    comp_dict.update({bn:frag})
+                    comp_tms_dict.update({bn:frag.tms})
+                except:
+                    glob_rm_bn.add(bn)
+
+            ## 이벤트 데이터 모두 소진시 루프 종료
+
+            if len(market_coin_bundle_dict)==len(glob_rm_bn):
+                while True:
+                    if len(comp_tms_dict)==0:
+                        class finish_msg():
+                            def __init__(self):
+                                self.type = 'finish_flag'
+                        fin = finish_msg()
+                        yield fin
+                        return fin
+                    mtk = min(comp_tms_dict, key=comp_tms_dict.get)
+                    comp_tms_dict.pop(mtk)
+                    yield comp_dict.pop(mtk)
+
+            mtk = min(comp_tms_dict,key=comp_tms_dict.get)
+            comp_tms_dict.pop(mtk)
+            msg = comp_dict.pop(mtk)
+            if (msg.tms < start_ts_str) | (msg.tms >= end_ts_str):
+                pass
+            else:
+                yield msg
+
+    return filtered_gen_func()
+
+
 def get_single_market_coin_event_data_merged_file(market, coin, start_date, end_date, input_dir_path, output_dir_path, pb_cls=cdformat_pb2.coinevent):
 
     to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
@@ -316,6 +388,11 @@ def get_single_market_coin_event_data_merged_file(market, coin, start_date, end_
                 output_stream_file.write(x)
 
     print('Merging Files / Completed / File Name : {}'.format(output_file_name))
+
+
+
+
+
 
 """
 ## Deprecated
