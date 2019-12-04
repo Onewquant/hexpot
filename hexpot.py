@@ -33,6 +33,7 @@ import sqlalchemy
 ##           자동화 관련
 ###########################################
 
+import pythoncom
 import win32com.client
 import pywinauto
 from pywinauto import application, timings
@@ -47,8 +48,6 @@ from PyQt5 import uic
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QAxContainer import *
-
-
 
 ###########################################
 ##         데이터분석 툴
