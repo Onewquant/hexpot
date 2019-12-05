@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package trading.kstdata;
+
+message trd {
+  string mktstate = 1;
+  string sid = 2;
+  string abtype = 3;
+  float price = 4;
+  float volume = 5;
+  float ap1 = 6;
+  float bp1 = 7;
+  float lp_rtvol = 8;
+  float lp_rtratio = 9;
+}
+
+message ob {
+
+  float tas = 1;
+  float tbs = 2;
+  float ap1 = 3;
+  float as1 = 4;
+  float bp1 = 5;
+  float bs1 = 6;
+
+  float ap2 = 7;
+  float as2 = 8;
+  float bp2 = 9;
+  float bs2 = 10;
+
+  float ap3 = 11;
+  float as3 = 12;
+  float bp3 = 13;
+  float bs3 = 14;
+
+  float ap4 = 15;
+  float as4 = 16;
+  float bp4 = 17;
+  float bs4 = 18;
+
+  float ap5 = 19;
+  float as5 = 20;
+  float bp5 = 21;
+  float bs5 = 22;
+
+  float ap6 = 23;
+  float as6 = 24;
+  float bp6 = 25;
+  float bs6 = 26;
+
+  float ap7 = 27;
+  float as7 = 28;
+  float bp7 = 29;
+  float bs7 = 30;
+
+  float ap8 = 31;
+  float as8 = 32;
+  float bp8 = 33;
+  float bs8 = 34;
+
+  float ap9 = 35;
+  float as9 = 36;
+  float bp9 = 37;
+  float bs9 = 38;
+
+  float ap10 = 39;
+  float as10 = 40;
+  float bp10 = 41;
+  float bs10 = 42;
+
+  float lp_tas = 51;
+  float lp_tbs = 52;
+
+  float lp_as1 = 53;
+  float lp_bs1 = 54;
+
+  float lp_as2 = 55;
+  float lp_bs2 = 56;
+
+  float lp_as3 = 57;
+  float lp_bs3 = 58;
+
+  float lp_as4 = 59;
+  float lp_bs4 = 60;
+
+  float lp_as5 = 61;
+  float lp_bs5 = 62;
+
+  float lp_as6 = 63;
+  float lp_bs6 = 64;
+
+  float lp_as7 = 65;
+  float lp_bs7 = 66;
+
+  float lp_as8 = 67;
+  float lp_bs8 = 68;
+
+  float lp_as9 = 69;
+  float lp_bs9 = 70;
+
+  float lp_as10 = 71;
+  float lp_bs10 = 72;
+}
+
+
+message kstevent {
+  string type = 1;
+  string market =2;
+  string ticker = 3;
+  string name = 4;
+  string tms = 5;
+  string tms_o = 6; 
+  trd trade = 8;
+  ob orderbook = 9;
+}

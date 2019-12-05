@@ -112,7 +112,7 @@ import zmq
 ##            Protocol Buffers
 ###########################################
 
-from hexpot.hexpot_pb import cpformat_pb2, cdformat_pb2, kstpohlc_pb2
+from hexpot.hexpot_pb import cpformat_pb2, cdformat_pb2, kstdformat_pb2, kstpohlc_pb2
 from google.protobuf.json_format import MessageToJson
 import stream
 
