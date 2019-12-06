@@ -3,15 +3,14 @@ syntax = "proto3";
 package trading.kstdata;
 
 message trd {
-  string mktstate = 1;
-  string sid = 2;
-  string abtype = 3;
-  float price = 4;
-  float volume = 5;
-  float ap1 = 6;
-  float bp1 = 7;
-  float lp_rtvol = 8;
-  float lp_rtratio = 9;
+  string sid = 1;
+  string abtype = 2;
+  float price = 3;
+  float volume = 4;
+  float ap1 = 5;
+  float bp1 = 6;
+  float lp_rtvol = 7;
+  float lp_rtratio = 8;
 }
 
 message ob {
@@ -104,12 +103,13 @@ message ob {
 
 
 message kstevent {
-  string type = 1;
-  string market =2;
-  string ticker = 3;
-  string name = 4;
-  string tms = 5;
-  string tms_o = 6; 
+  string mktstate = 1;
+  string type = 2;
+  string market =3;
+  string ticker = 4;
+  string name = 5;
+  string tms = 6;
+  string tms_o = 7; 
   trd trade = 8;
   ob orderbook = 9;
 }

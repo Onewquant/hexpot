@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='trading.kstdata',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x10kstdformat.proto\x12\x0ftrading.kstdata\"\x93\x01\n\x03trd\x12\x10\n\x08mktstate\x18\x01 \x01(\t\x12\x0b\n\x03sid\x18\x02 \x01(\t\x12\x0e\n\x06\x61\x62type\x18\x03 \x01(\t\x12\r\n\x05price\x18\x04 \x01(\x02\x12\x0e\n\x06volume\x18\x05 \x01(\x02\x12\x0b\n\x03\x61p1\x18\x06 \x01(\x02\x12\x0b\n\x03\x62p1\x18\x07 \x01(\x02\x12\x10\n\x08lp_rtvol\x18\x08 \x01(\x02\x12\x12\n\nlp_rtratio\x18\t \x01(\x02\"\x8c\x07\n\x02ob\x12\x0b\n\x03tas\x18\x01 \x01(\x02\x12\x0b\n\x03tbs\x18\x02 \x01(\x02\x12\x0b\n\x03\x61p1\x18\x03 \x01(\x02\x12\x0b\n\x03\x61s1\x18\x04 \x01(\x02\x12\x0b\n\x03\x62p1\x18\x05 \x01(\x02\x12\x0b\n\x03\x62s1\x18\x06 \x01(\x02\x12\x0b\n\x03\x61p2\x18\x07 \x01(\x02\x12\x0b\n\x03\x61s2\x18\x08 \x01(\x02\x12\x0b\n\x03\x62p2\x18\t \x01(\x02\x12\x0b\n\x03\x62s2\x18\n \x01(\x02\x12\x0b\n\x03\x61p3\x18\x0b \x01(\x02\x12\x0b\n\x03\x61s3\x18\x0c \x01(\x02\x12\x0b\n\x03\x62p3\x18\r \x01(\x02\x12\x0b\n\x03\x62s3\x18\x0e \x01(\x02\x12\x0b\n\x03\x61p4\x18\x0f \x01(\x02\x12\x0b\n\x03\x61s4\x18\x10 \x01(\x02\x12\x0b\n\x03\x62p4\x18\x11 \x01(\x02\x12\x0b\n\x03\x62s4\x18\x12 \x01(\x02\x12\x0b\n\x03\x61p5\x18\x13 \x01(\x02\x12\x0b\n\x03\x61s5\x18\x14 \x01(\x02\x12\x0b\n\x03\x62p5\x18\x15 \x01(\x02\x12\x0b\n\x03\x62s5\x18\x16 \x01(\x02\x12\x0b\n\x03\x61p6\x18\x17 \x01(\x02\x12\x0b\n\x03\x61s6\x18\x18 \x01(\x02\x12\x0b\n\x03\x62p6\x18\x19 \x01(\x02\x12\x0b\n\x03\x62s6\x18\x1a \x01(\x02\x12\x0b\n\x03\x61p7\x18\x1b \x01(\x02\x12\x0b\n\x03\x61s7\x18\x1c \x01(\x02\x12\x0b\n\x03\x62p7\x18\x1d \x01(\x02\x12\x0b\n\x03\x62s7\x18\x1e \x01(\x02\x12\x0b\n\x03\x61p8\x18\x1f \x01(\x02\x12\x0b\n\x03\x61s8\x18  \x01(\x02\x12\x0b\n\x03\x62p8\x18! \x01(\x02\x12\x0b\n\x03\x62s8\x18\" \x01(\x02\x12\x0b\n\x03\x61p9\x18# \x01(\x02\x12\x0b\n\x03\x61s9\x18$ \x01(\x02\x12\x0b\n\x03\x62p9\x18% \x01(\x02\x12\x0b\n\x03\x62s9\x18& \x01(\x02\x12\x0c\n\x04\x61p10\x18\' \x01(\x02\x12\x0c\n\x04\x61s10\x18( \x01(\x02\x12\x0c\n\x04\x62p10\x18) \x01(\x02\x12\x0c\n\x04\x62s10\x18* \x01(\x02\x12\x0e\n\x06lp_tas\x18\x33 \x01(\x02\x12\x0e\n\x06lp_tbs\x18\x34 \x01(\x02\x12\x0e\n\x06lp_as1\x18\x35 \x01(\x02\x12\x0e\n\x06lp_bs1\x18\x36 \x01(\x02\x12\x0e\n\x06lp_as2\x18\x37 \x01(\x02\x12\x0e\n\x06lp_bs2\x18\x38 \x01(\x02\x12\x0e\n\x06lp_as3\x18\x39 \x01(\x02\x12\x0e\n\x06lp_bs3\x18: \x01(\x02\x12\x0e\n\x06lp_as4\x18; \x01(\x02\x12\x0e\n\x06lp_bs4\x18< \x01(\x02\x12\x0e\n\x06lp_as5\x18= \x01(\x02\x12\x0e\n\x06lp_bs5\x18> \x01(\x02\x12\x0e\n\x06lp_as6\x18? \x01(\x02\x12\x0e\n\x06lp_bs6\x18@ \x01(\x02\x12\x0e\n\x06lp_as7\x18\x41 \x01(\x02\x12\x0e\n\x06lp_bs7\x18\x42 \x01(\x02\x12\x0e\n\x06lp_as8\x18\x43 \x01(\x02\x12\x0e\n\x06lp_bs8\x18\x44 \x01(\x02\x12\x0e\n\x06lp_as9\x18\x45 \x01(\x02\x12\x0e\n\x06lp_bs9\x18\x46 \x01(\x02\x12\x0f\n\x07lp_as10\x18G \x01(\x02\x12\x0f\n\x07lp_bs10\x18H \x01(\x02\"\xaf\x01\n\x08kstevent\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0e\n\x06market\x18\x02 \x01(\t\x12\x0e\n\x06ticker\x18\x03 \x01(\t\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x0b\n\x03tms\x18\x05 \x01(\t\x12\r\n\x05tms_o\x18\x06 \x01(\t\x12#\n\x05trade\x18\x08 \x01(\x0b\x32\x14.trading.kstdata.trd\x12&\n\torderbook\x18\t \x01(\x0b\x32\x13.trading.kstdata.obb\x06proto3')
+  serialized_pb=_b('\n\x10kstdformat.proto\x12\x0ftrading.kstdata\"\x81\x01\n\x03trd\x12\x0b\n\x03sid\x18\x01 \x01(\t\x12\x0e\n\x06\x61\x62type\x18\x02 \x01(\t\x12\r\n\x05price\x18\x03 \x01(\x02\x12\x0e\n\x06volume\x18\x04 \x01(\x02\x12\x0b\n\x03\x61p1\x18\x05 \x01(\x02\x12\x0b\n\x03\x62p1\x18\x06 \x01(\x02\x12\x10\n\x08lp_rtvol\x18\x07 \x01(\x02\x12\x12\n\nlp_rtratio\x18\x08 \x01(\x02\"\x8c\x07\n\x02ob\x12\x0b\n\x03tas\x18\x01 \x01(\x02\x12\x0b\n\x03tbs\x18\x02 \x01(\x02\x12\x0b\n\x03\x61p1\x18\x03 \x01(\x02\x12\x0b\n\x03\x61s1\x18\x04 \x01(\x02\x12\x0b\n\x03\x62p1\x18\x05 \x01(\x02\x12\x0b\n\x03\x62s1\x18\x06 \x01(\x02\x12\x0b\n\x03\x61p2\x18\x07 \x01(\x02\x12\x0b\n\x03\x61s2\x18\x08 \x01(\x02\x12\x0b\n\x03\x62p2\x18\t \x01(\x02\x12\x0b\n\x03\x62s2\x18\n \x01(\x02\x12\x0b\n\x03\x61p3\x18\x0b \x01(\x02\x12\x0b\n\x03\x61s3\x18\x0c \x01(\x02\x12\x0b\n\x03\x62p3\x18\r \x01(\x02\x12\x0b\n\x03\x62s3\x18\x0e \x01(\x02\x12\x0b\n\x03\x61p4\x18\x0f \x01(\x02\x12\x0b\n\x03\x61s4\x18\x10 \x01(\x02\x12\x0b\n\x03\x62p4\x18\x11 \x01(\x02\x12\x0b\n\x03\x62s4\x18\x12 \x01(\x02\x12\x0b\n\x03\x61p5\x18\x13 \x01(\x02\x12\x0b\n\x03\x61s5\x18\x14 \x01(\x02\x12\x0b\n\x03\x62p5\x18\x15 \x01(\x02\x12\x0b\n\x03\x62s5\x18\x16 \x01(\x02\x12\x0b\n\x03\x61p6\x18\x17 \x01(\x02\x12\x0b\n\x03\x61s6\x18\x18 \x01(\x02\x12\x0b\n\x03\x62p6\x18\x19 \x01(\x02\x12\x0b\n\x03\x62s6\x18\x1a \x01(\x02\x12\x0b\n\x03\x61p7\x18\x1b \x01(\x02\x12\x0b\n\x03\x61s7\x18\x1c \x01(\x02\x12\x0b\n\x03\x62p7\x18\x1d \x01(\x02\x12\x0b\n\x03\x62s7\x18\x1e \x01(\x02\x12\x0b\n\x03\x61p8\x18\x1f \x01(\x02\x12\x0b\n\x03\x61s8\x18  \x01(\x02\x12\x0b\n\x03\x62p8\x18! \x01(\x02\x12\x0b\n\x03\x62s8\x18\" \x01(\x02\x12\x0b\n\x03\x61p9\x18# \x01(\x02\x12\x0b\n\x03\x61s9\x18$ \x01(\x02\x12\x0b\n\x03\x62p9\x18% \x01(\x02\x12\x0b\n\x03\x62s9\x18& \x01(\x02\x12\x0c\n\x04\x61p10\x18\' \x01(\x02\x12\x0c\n\x04\x61s10\x18( \x01(\x02\x12\x0c\n\x04\x62p10\x18) \x01(\x02\x12\x0c\n\x04\x62s10\x18* \x01(\x02\x12\x0e\n\x06lp_tas\x18\x33 \x01(\x02\x12\x0e\n\x06lp_tbs\x18\x34 \x01(\x02\x12\x0e\n\x06lp_as1\x18\x35 \x01(\x02\x12\x0e\n\x06lp_bs1\x18\x36 \x01(\x02\x12\x0e\n\x06lp_as2\x18\x37 \x01(\x02\x12\x0e\n\x06lp_bs2\x18\x38 \x01(\x02\x12\x0e\n\x06lp_as3\x18\x39 \x01(\x02\x12\x0e\n\x06lp_bs3\x18: \x01(\x02\x12\x0e\n\x06lp_as4\x18; \x01(\x02\x12\x0e\n\x06lp_bs4\x18< \x01(\x02\x12\x0e\n\x06lp_as5\x18= \x01(\x02\x12\x0e\n\x06lp_bs5\x18> \x01(\x02\x12\x0e\n\x06lp_as6\x18? \x01(\x02\x12\x0e\n\x06lp_bs6\x18@ \x01(\x02\x12\x0e\n\x06lp_as7\x18\x41 \x01(\x02\x12\x0e\n\x06lp_bs7\x18\x42 \x01(\x02\x12\x0e\n\x06lp_as8\x18\x43 \x01(\x02\x12\x0e\n\x06lp_bs8\x18\x44 \x01(\x02\x12\x0e\n\x06lp_as9\x18\x45 \x01(\x02\x12\x0e\n\x06lp_bs9\x18\x46 \x01(\x02\x12\x0f\n\x07lp_as10\x18G \x01(\x02\x12\x0f\n\x07lp_bs10\x18H \x01(\x02\"\xc1\x01\n\x08kstevent\x12\x10\n\x08mktstate\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06market\x18\x03 \x01(\t\x12\x0e\n\x06ticker\x18\x04 \x01(\t\x12\x0c\n\x04name\x18\x05 \x01(\t\x12\x0b\n\x03tms\x18\x06 \x01(\t\x12\r\n\x05tms_o\x18\x07 \x01(\t\x12#\n\x05trade\x18\x08 \x01(\x0b\x32\x14.trading.kstdata.trd\x12&\n\torderbook\x18\t \x01(\x0b\x32\x13.trading.kstdata.obb\x06proto3')
 )
 
 
@@ -34,64 +34,57 @@ _TRD = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='mktstate', full_name='trading.kstdata.trd.mktstate', index=0,
+      name='sid', full_name='trading.kstdata.trd.sid', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sid', full_name='trading.kstdata.trd.sid', index=1,
+      name='abtype', full_name='trading.kstdata.trd.abtype', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='abtype', full_name='trading.kstdata.trd.abtype', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='price', full_name='trading.kstdata.trd.price', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='price', full_name='trading.kstdata.trd.price', index=3,
+      name='volume', full_name='trading.kstdata.trd.volume', index=3,
       number=4, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='volume', full_name='trading.kstdata.trd.volume', index=4,
+      name='ap1', full_name='trading.kstdata.trd.ap1', index=4,
       number=5, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ap1', full_name='trading.kstdata.trd.ap1', index=5,
+      name='bp1', full_name='trading.kstdata.trd.bp1', index=5,
       number=6, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bp1', full_name='trading.kstdata.trd.bp1', index=6,
+      name='lp_rtvol', full_name='trading.kstdata.trd.lp_rtvol', index=6,
       number=7, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='lp_rtvol', full_name='trading.kstdata.trd.lp_rtvol', index=7,
+      name='lp_rtratio', full_name='trading.kstdata.trd.lp_rtratio', index=7,
       number=8, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='lp_rtratio', full_name='trading.kstdata.trd.lp_rtratio', index=8,
-      number=9, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -109,7 +102,7 @@ _TRD = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=38,
-  serialized_end=185,
+  serialized_end=167,
 )
 
 
@@ -580,8 +573,8 @@ _OB = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=188,
-  serialized_end=1096,
+  serialized_start=170,
+  serialized_end=1078,
 )
 
 
@@ -593,56 +586,63 @@ _KSTEVENT = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='type', full_name='trading.kstdata.kstevent.type', index=0,
+      name='mktstate', full_name='trading.kstdata.kstevent.mktstate', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='market', full_name='trading.kstdata.kstevent.market', index=1,
+      name='type', full_name='trading.kstdata.kstevent.type', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ticker', full_name='trading.kstdata.kstevent.ticker', index=2,
+      name='market', full_name='trading.kstdata.kstevent.market', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='trading.kstdata.kstevent.name', index=3,
+      name='ticker', full_name='trading.kstdata.kstevent.ticker', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tms', full_name='trading.kstdata.kstevent.tms', index=4,
+      name='name', full_name='trading.kstdata.kstevent.name', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='tms_o', full_name='trading.kstdata.kstevent.tms_o', index=5,
+      name='tms', full_name='trading.kstdata.kstevent.tms', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='trade', full_name='trading.kstdata.kstevent.trade', index=6,
+      name='tms_o', full_name='trading.kstdata.kstevent.tms_o', index=6,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='trade', full_name='trading.kstdata.kstevent.trade', index=7,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='orderbook', full_name='trading.kstdata.kstevent.orderbook', index=7,
+      name='orderbook', full_name='trading.kstdata.kstevent.orderbook', index=8,
       number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -660,7 +660,7 @@ _KSTEVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1099,
+  serialized_start=1081,
   serialized_end=1274,
 )
 
