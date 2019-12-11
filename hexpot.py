@@ -623,6 +623,193 @@ def get_ohlcv_df_from_tick_price_data_generator(generator,time_interval,start_dt
 ##                          KStock Data File 다루기
 ###########################################################################
 
+def load_single_market_stock_event_data_generator(market,ticker, start_dt_str, end_dt_str, db_path, pb_cls=kstdformat_pb2.kstevent):
+
+    start_date = start_dt_str.split('T')[0]
+    end_date = end_dt_str.split('T')[0]
+
+    start_ts_str = str(int(datetime.strptime(start_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()))
+    end_ts_str = str(int(datetime.strptime(end_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()))
+
+    to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
+
+    file_name = '{}_{}_****-**-**.gz'.format(market,ticker)
+    file_path = '{}\\{}\\{}\\{}'.format(db_path,market,ticker,file_name)
+    file_list = glob.glob(file_path)
+    to_do_file_path_list = []
+    to_do_date_list = []
+
+    for fp in file_list:
+        file_date = fp.split('{}_{}_'.format(market,ticker))[-1][:-3]
+        if file_date in to_do_candidate_list:
+            to_do_date_list.append(file_date)
+            to_do_file_path_list.append(fp)
+
+    to_do_file_path_list.sort(reverse=False)
+
+    for fp_inx in range(len(to_do_file_path_list)):
+        if fp_inx==0:
+            fp = to_do_file_path_list[fp_inx]
+            t = stream.parse(ifp=fp, pb_cls=pb_cls)
+            continue
+        fp = to_do_file_path_list[fp_inx]
+        f = stream.parse(ifp=fp, pb_cls=pb_cls)
+        t = chain(t,f)
+
+    def filtered_gen_func():
+        for x in t:
+            if (x.tms < start_ts_str)|(x.tms >= end_ts_str):
+                continue
+            yield x
+
+    return filtered_gen_func()
+
+
+def load_single_market_stock_event_data_bundle(market, ticker, start_dt_str, end_dt_str, db_path, pb_cls=kstdformat_pb2.kstevent):
+
+    start_date = start_dt_str.split('T')[0]
+    end_date = end_dt_str.split('T')[0]
+
+    start_ts_str = str(int(datetime.strptime(start_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()))
+    end_ts_str = str(int(datetime.strptime(end_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()))
+
+    to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
+
+    file_name = '{}_{}_****-**-**.gz'.format(market,ticker)
+    file_path = '{}\\{}\\{}\\{}'.format(db_path,market,ticker,file_name)
+    file_list = glob.glob(file_path)
+    to_do_file_path_list = []
+    to_do_date_list = []
+
+    for fp in file_list:
+        file_date = fp.split('{}_{}_'.format(market,ticker))[-1][:-3]
+        if file_date in to_do_candidate_list:
+            to_do_date_list.append(file_date)
+            to_do_file_path_list.append(fp)
+
+    to_do_file_path_list.sort(reverse=False)
+
+    for fp_inx in range(len(to_do_file_path_list)):
+        if fp_inx==0:
+            fp = to_do_file_path_list[fp_inx]
+            t = stream.parse(ifp=fp, pb_cls=pb_cls)
+            continue
+        fp = to_do_file_path_list[fp_inx]
+        f = stream.parse(ifp=fp, pb_cls=pb_cls)
+        t = chain(t,f)
+
+    return t
+
+
+def load_combined_stock_event_data_generator(market_ticker_comb, start_dt_str, end_dt_str, db_path, pb_cls=kstdformat_pb2.kstevent):
+
+    start_ts_str = str(int(datetime.strptime(start_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()))
+    end_ts_str = str(int(datetime.strptime(end_dt_str,'%Y-%m-%dT%H:%M:%S').timestamp()))
+
+    market_ticker_bundle_dict = dict()
+    bn = 0
+    for m in market_ticker_comb.keys():
+        for c in market_ticker_comb[m]:
+            try:
+                mcfg = load_single_market_stock_event_data_bundle(market=m,ticker=c,start_dt_str=start_dt_str,end_dt_str=end_dt_str,db_path=db_path)
+                market_ticker_bundle_dict.update({bn:mcfg})
+                bn+=1
+            except:
+                print('{} / {} / {} / {} /데이터가 존재하지 않습니다'.format(m,c,start_dt_str,end_dt_str))
+                continue
+
+    if len(market_ticker_bundle_dict)==0:
+        print('데이터가 존재하지 않습니다'.format(m, c, start_dt_str, end_dt_str))
+
+        class finish_msg():
+            def __init__(self):
+                self.type = 'finish_flag'
+        fin = finish_msg()
+        return fin
+
+
+    def filtered_gen_func():
+
+        comp_dict = dict()
+        comp_tms_dict = dict()
+        glob_rm_bn = set()
+        while True:
+
+            ## 최소 시간 이벤트 내보내기
+
+            for bn in market_ticker_bundle_dict.keys():
+                if (bn in comp_tms_dict.keys()):
+                    continue
+                try:
+                    frag = next(market_ticker_bundle_dict[bn])
+                    comp_dict.update({bn:frag})
+                    comp_tms_dict.update({bn:frag.tms})
+                except:
+                    glob_rm_bn.add(bn)
+
+            ## 이벤트 데이터 모두 소진시 루프 종료
+
+            if len(market_ticker_bundle_dict)==len(glob_rm_bn):
+                while True:
+                    if len(comp_tms_dict)==0:
+                        class finish_msg():
+                            def __init__(self):
+                                self.type = 'finish_flag'
+                        fin = finish_msg()
+                        yield fin
+                        return fin
+                    mtk = min(comp_tms_dict, key=comp_tms_dict.get)
+                    comp_tms_dict.pop(mtk)
+                    yield comp_dict.pop(mtk)
+
+            mtk = min(comp_tms_dict,key=comp_tms_dict.get)
+            comp_tms_dict.pop(mtk)
+            msg = comp_dict.pop(mtk)
+            if (msg.tms < start_ts_str) | (msg.tms >= end_ts_str):
+                pass
+            else:
+                yield msg
+
+    return filtered_gen_func()
+
+
+def get_single_market_stock_event_data_merged_file(market, ticker, start_date, end_date, input_dir_path, output_dir_path, pb_cls=kstdformat_pb2.kstevent):
+
+    to_do_candidate_list = generate_day_list(start_date=start_date,end_date=end_date)
+
+    file_list = glob.glob(input_dir_path+'\\{}_{}_****-**-**.gz'.format(market,ticker))
+    to_do_file_path_list = []
+    to_do_date_list = []
+
+    for fp in file_list:
+        file_date = fp.split('{}_{}_'.format(market,ticker))[-1][:-3]
+        if file_date in to_do_candidate_list:
+            to_do_date_list.append(file_date)
+            to_do_file_path_list.append(fp)
+
+    min_date = min(to_do_date_list)
+    max_date = max(to_do_date_list)
+
+    output_file_name = '{}_{}_{}_{}.gz'.format(market,ticker,min_date.replace('-',''),max_date.replace('-',''))
+    output_file_path = output_dir_path+'\\{}'.format(output_file_name)
+
+    with stream.open(output_file_path,'a') as output_stream_file:
+
+        for cur_date in to_do_date_list:
+            input_file_name = '{}_{}_{}.gz'.format(market, ticker, cur_date)
+            input_file_path = '{}\\{}'.format(input_dir_path,input_file_name)
+
+            input_stream_file = stream.parse(ifp=input_file_path, pb_cls=pb_cls)
+            for x in input_stream_file:
+                output_stream_file.write(x)
+
+    print('Merging Files / Completed / File Name : {}'.format(output_file_name))
+
+
+
+
+
+
 def load_stock_ohlc_price_data_on_the_date_generator(market, ticker, date, root_dir_path, pb_cls=kstpohlc_pb2.KSTPrice):
 
     file_name = '{}_{}_{}.gz'.format(market, ticker, date)
