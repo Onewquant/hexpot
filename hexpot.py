@@ -147,6 +147,10 @@ def timestamp_into_kst_time(ts):
         return np.nan
 
 
+def timestamp_into_dt_str_format(tms, format='%Y-%m-%dT%H:%M:%S.%f'):
+    return timestamp_into_kst_time(tms).strftime(format)
+
+
 ## Date list generator
 
 def generate_day_list(start_date,end_date=None):
