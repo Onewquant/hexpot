@@ -140,7 +140,7 @@ print(closing_time-opening_time)
 def timestamp_into_kst_time(ts):
     KST = pytz.timezone('Asia/Seoul')
     try:
-        dt = datetime.utcfromtimestamp(ts)
+        dt = datetime.utcfromtimestamp(float(ts))
         k_dt = pytz.utc.localize(dt).astimezone(KST)
         return k_dt
     except:
