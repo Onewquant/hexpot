@@ -116,6 +116,24 @@ from hexpot.hexpot_pb import cpformat_pb2, cdformat_pb2, kstdformat_pb2, kstpohl
 from google.protobuf.json_format import MessageToJson
 import stream
 
+"""
+Protocol Buffer 사용법
+
+## Message <-> Json
+
+# pb_cls = kstdformat_pb2.kstevent()
+# 
+# Message To Json // MessageToJson(message)
+# Json To Message // 각 요소들 알아서 매핑
+
+## Message <-> String
+
+# pb_cls = kstdformat_pb2.kstevent()
+# 
+# serialization // message.SerializeToString()
+# deserialization // pb_cls.FromString(ser_str)
+"""
+
 ###########################################
 ##                 ML
 ###########################################
