@@ -11,6 +11,7 @@ from itertools import chain
 ##         Math, 자료형 관련 import
 ###########################################
 
+import csv
 import json
 import math
 import random
