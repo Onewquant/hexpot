@@ -3,6 +3,7 @@
 ###########################################
 
 import os
+import sys
 import glob
 import shutil
 from itertools import chain
@@ -73,6 +74,7 @@ try:
     import thread
 except ImportError:
     import _thread as thread
+import threading
 
 ###########################################
 ##          날짜관련 import
@@ -134,6 +136,16 @@ Protocol Buffer 사용법
 # serialization // message.SerializeToString()
 # deserialization // pb_cls.FromString(ser_str)
 """
+
+###########################################
+##                 AWS S3
+###########################################
+
+import boto3
+import botocore
+from botocore.exceptions import ClientError
+from boto3.s3.transfer import TransferConfig
+import logging
 
 ###########################################
 ##                 ML
