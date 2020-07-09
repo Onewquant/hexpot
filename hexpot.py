@@ -152,6 +152,7 @@ import logging
 ###########################################
 
 import pickle
+from pykalman import KalmanFilter
 
 ###########################################################################
 ##                          General Tools
