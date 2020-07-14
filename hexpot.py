@@ -6,7 +6,7 @@ import os
 import sys
 import glob
 import shutil
-from itertools import chain
+from itertools import chain, permutations, combinations
 
 ###########################################
 ##         Math, 자료형 관련 import
