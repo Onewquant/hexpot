@@ -1,0 +1,146 @@
+syntax = "proto3";
+
+package trading.kfindata;
+
+message trd {
+  string abtype = 2;
+  float price = 3;
+  float volume = 4;
+  float ap1 = 5;
+  float bp1 = 6;
+
+  float lp_rtvol = 7;
+  float lp_rtratio = 8;
+
+  float theo_index = 9;
+  float cur_index = 10;
+  float base_price = 11;
+  float open_interest = 12;
+  float ua_price = 13;
+}
+
+message ob {
+
+  float tas = 1;
+  float tac = 2;
+  float tbs = 3;
+  float tbc = 4;
+
+  float ap1 = 5;
+  float as1 = 6;
+  float ac1 = 7;
+  float bp1 = 8;
+  float bs1 = 9;
+  float bc1 = 10;
+
+  float ap2 = 11;
+  float as2 = 12;
+  float ac2 = 13;
+  float bp2 = 14;
+  float bs2 = 15;
+  float bc2 = 16;
+
+  float ap3 = 17;
+  float as3 = 18;
+  float ac3 = 19;
+  float bp3 = 20;
+  float bs3 = 21;
+  float bc3 = 22;
+
+  float ap4 = 23;
+  float as4 = 24;
+  float ac4 = 25;
+  float bp4 = 26;
+  float bs4 = 27;
+  float bc4 = 28;
+
+  float ap5 = 29;
+  float as5 = 30;
+  float ac5 = 31;
+  float bp5 = 32;
+  float bs5 = 33;
+  float bc5 = 34;
+
+  float ap6 = 35;
+  float as6 = 36;
+  float ac6 = 37;
+  float bp6 = 38;
+  float bs6 = 39;
+  float bc6 = 40;
+
+  float ap7 = 41;
+  float as7 = 42;
+  float ac7 = 43;
+  float bp7 = 44;
+  float bs7 = 45;
+  float bc7 = 46;
+
+  float ap8 = 47;
+  float as8 = 48;
+  float ac8 = 49;
+  float bp8 = 50;
+  float bs8 = 51;
+  float bc8 = 52;
+
+  float ap9 = 53;
+  float as9 = 54;
+  float ac9 = 55;
+  float bp9 = 56;
+  float bs9 = 57;
+  float bc9 = 58;
+
+  float ap10 = 59;
+  float as10 = 60;
+  float ac10 = 61;
+  float bp10 = 62;
+  float bs10 = 63;
+  float bc10 = 64;
+
+  float lp_tas = 65;
+  float lp_tbs = 66;
+
+  float lp_as1 = 67;
+  float lp_bs1 = 68;
+
+  float lp_as2 = 69;
+  float lp_bs2 = 70;
+
+  float lp_as3 = 71;
+  float lp_bs3 = 72;
+
+  float lp_as4 = 73;
+  float lp_bs4 = 74;
+
+  float lp_as5 = 75;
+  float lp_bs5 = 76;
+
+  float lp_as6 = 77;
+  float lp_bs6 = 78;
+
+  float lp_as7 = 79;
+  float lp_bs7 = 80;
+
+  float lp_as8 = 81;
+  float lp_bs8 = 82;
+
+  float lp_as9 = 83;
+  float lp_bs9 = 84;
+
+  float lp_as10 = 85;
+  float lp_bs10 = 86;
+}
+
+message kfinevent {
+  string mktstate = 1;
+  string type = 2;
+  string market =3;
+  string rticker = 4;
+  string ticker = 5;
+  string name = 6;
+  string tms = 7;
+  string tms_o = 8; 
+  string dtype = 9;
+
+  trd trade = 10;
+  ob orderbook = 11;
+}
