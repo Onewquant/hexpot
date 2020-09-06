@@ -57,6 +57,7 @@ from PyQt5.QAxContainer import *
 
 import pandas as pd
 from pandas.io.json import json_normalize
+from pandas.core.common import flatten
 import numpy as np
 
 ###########################################
