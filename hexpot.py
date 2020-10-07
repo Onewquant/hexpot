@@ -241,8 +241,7 @@ def mk_new_dir(dir_path):
 def load_single_ticker_market_event_data_bundle(universe, atype, market, ticker, start_dt_str, end_dt_str, db_path, pb_cls=kfinformat_pb2.kfinevent):
 
     start_date, end_date = start_dt_str.split('T')[0], end_dt_str.split('T')[0]
-
-    to_do_file_path_list = list()
+    to_do_file_path_list, t_init = list(), True
 
     if atype in ('STOCK','ETF'):
         file_name = '{}_{}_RM0_{}_*-*-*.gz'.format(atype, market,ticker)
@@ -253,17 +252,13 @@ def load_single_ticker_market_event_data_bundle(universe, atype, market, ticker,
             file_date = fp.split('_')[-1][:-3]
             if (file_date>=start_date)&(file_date<=end_date):
                 to_do_file_path_list.append(fp)
-
         to_do_file_path_list.sort(reverse=False)
 
         for fp_inx, fp_val in enumerate(to_do_file_path_list):
-            if fp_inx == 0:
-                fp = fp_val
-                t = stream.parse(ifp=fp, pb_cls=pb_cls)
+            if t_init:
+                t, t_init = stream.parse(ifp=fp_val, pb_cls=pb_cls), False
                 continue
-            fp = fp_val
-            f = stream.parse(ifp=fp, pb_cls=pb_cls)
-            t = chain(t, f)
+            t = chain(t, stream.parse(ifp=fp_val, pb_cls=pb_cls))
 
     elif atype in ('FUTURES',):
         for inx, date in enumerate(generate_day_list(start_date=start_date,end_date=end_date)):
@@ -271,11 +266,10 @@ def load_single_ticker_market_event_data_bundle(universe, atype, market, ticker,
             fp_val = '{}\\{}\\{}\\{}\\{}\\{}'.format(db_path, universe, atype, ticker.split('_')[0], date, file_name)
             file_list = glob.glob(fp_val)
             if len(file_list)!=0:
-                if inx==0:
-                    t = stream.parse(ifp=file_list[0], pb_cls=pb_cls)
+                if t_init:
+                    t, t_init = stream.parse(ifp=file_list[0], pb_cls=pb_cls), False
                     continue
-                f = stream.parse(ifp=file_list[0], pb_cls=pb_cls)
-                t = chain(t, f)
+                t = chain(t, stream.parse(ifp=file_list[0], pb_cls=pb_cls))
     return t
 
 
