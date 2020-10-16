@@ -7,6 +7,7 @@ import sys
 import glob
 import shutil
 from itertools import chain, permutations, combinations
+from copy import deepcopy
 
 ###########################################
 ##         Math, 자료형 관련 import
