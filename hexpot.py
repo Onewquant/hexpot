@@ -24,6 +24,7 @@ import random
 
 import requests
 from io import BytesIO
+import FinanceDataReader as fdr
 
 ###########################################
 ## mssql 관련 import
