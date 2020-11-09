@@ -74,10 +74,8 @@ import seaborn as sns
 ##         Process, Thread
 ###########################################
 
-try:
-    import thread
-except ImportError:
-    import _thread as thread
+try: import thread
+except ImportError: import _thread as thread
 import threading
 
 ###########################################
