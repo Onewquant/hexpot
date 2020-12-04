@@ -67,7 +67,7 @@ import numpy as np
 ##         Process, Thread
 ###########################################
 
-from matplotlib import font_manager, rc, pyplot as plt
+from matplotlib import font_manager, rc, pyplot as plt, ticker as mplibticker
 import seaborn as sns
 
 ###########################################
