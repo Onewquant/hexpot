@@ -62,6 +62,7 @@ import pandas as pd
 from pandas import json_normalize
 from pandas.core.common import flatten
 import numpy as np
+from itertools import combinations, permutations
 
 ###########################################
 ##         Process, Thread
