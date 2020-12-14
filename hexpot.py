@@ -206,10 +206,8 @@ def generate_day_index_df(start_date,end_date=None):
 
     start_date = datetime.strptime(start_date,'%Y-%m-%d')
 
-    if end_date == None :
-        end_date = datetime.today()
-    else :
-        end_date = datetime.strptime(end_date,'%Y-%m-%d')
+    if end_date == None : end_date = datetime.today()
+    else : end_date = datetime.strptime(end_date,'%Y-%m-%d')
 
     delta = end_date - start_date
     date_list = []
@@ -225,14 +223,18 @@ def generate_day_index_df(start_date,end_date=None):
 
 
 def check_dir(dir_path):
-    if os.path.exists(dir_path):
-        pass
-    else:
-        os.mkdir(dir_path)
+    if os.path.exists(dir_path): pass
+    else: os.mkdir(dir_path)
+
+def check_dir_continuous(dir_list, root_path='.'):
+    dir_str = root_path
+    for direc in dir_list:
+        dir_str += f'/{direc}'
+        check_dir(dir_str)
+    return dir_str
 
 def mk_new_dir(dir_path):
-    if os.path.exists(dir_path):
-        shutil.rmtree(path=dir_path)
+    if os.path.exists(dir_path): shutil.rmtree(path=dir_path)
     os.mkdir(dir_path)
 
 
