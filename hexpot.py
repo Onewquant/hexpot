@@ -250,7 +250,7 @@ def load_single_ticker_market_event_data_bundle(universe, atype, market, ticker,
 
     if atype in ('STOCK','ETF'):
         file_name = '{}_{}_RM0_{}_*-*-*.gz'.format(atype, market,ticker)
-        file_path = '{}\\{}\\{}\\{}\\{}'.format(db_path, universe, atype, ticker, file_name)
+        file_path = '{}\\{}\\TICK\\{}\\{}\\{}'.format(db_path, universe, atype, ticker, file_name)
         file_list = glob.glob(file_path)
 
         for fp in file_list:
@@ -268,7 +268,7 @@ def load_single_ticker_market_event_data_bundle(universe, atype, market, ticker,
     elif atype in ('FUTURES',):
         for inx, date in enumerate(generate_day_list(start_date=start_date,end_date=end_date)):
             file_name = '{}_{}_*_{}.gz'.format(atype, ticker, date)
-            fp_val = '{}\\{}\\{}\\{}\\{}\\{}'.format(db_path, universe, atype, ticker.split('_')[0], date, file_name)
+            fp_val = '{}\\{}\\TICK\\{}\\{}\\{}\\{}'.format(db_path, universe, atype, ticker.split('_')[0], date, file_name)
             file_list = glob.glob(fp_val)
             if len(file_list)!=0:
                 if t_init:
