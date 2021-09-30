@@ -4,6 +4,7 @@
 
 import os
 import sys
+import re
 import glob
 import shutil
 from itertools import chain, permutations, combinations
@@ -84,7 +85,7 @@ import threading
 ###########################################
 
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import calendar
 from dateutil.relativedelta import relativedelta
 import dateutil
@@ -157,6 +158,25 @@ import logging
 
 import pickle
 from pykalman import KalmanFilter
+from sklearn.linear_model import LinearRegression
+
+###########################################
+##         CRYPTO Exchanges
+###########################################
+
+import pyupbit
+import binance
+
+###########################################
+##         KRX Broker API
+###########################################
+
+import logging
+from getpass import getpass
+import platform
+assert sys.platform == 'win32', 'xingAPI는 Windows 환경에서 사용 가능합니다.'
+try: assert platform.architecture()[0] == '32bit', 'xingAPI는 32bit 환경에서 사용 가능합니다.'
+except: pass
 
 ###########################################################################
 ##                          General Tools
