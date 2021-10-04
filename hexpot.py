@@ -64,9 +64,10 @@ from pandas import json_normalize
 from pandas.core.common import flatten
 import numpy as np
 from itertools import combinations, permutations
+import itertools
 
 ###########################################
-##         Process, Thread
+##         데이터 시각화 툴
 ###########################################
 
 from matplotlib import font_manager, rc, pyplot as plt, ticker as mplibticker
