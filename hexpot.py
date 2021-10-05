@@ -18,6 +18,8 @@ import csv
 import json
 import math
 import random
+import functools
+import operator
 
 ###########################################
 ##         Data 받기
