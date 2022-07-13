@@ -42,8 +42,8 @@ import sqlalchemy
 
 import pythoncom
 import win32com.client
-import pywinauto
-from pywinauto import application, timings
+# import pywinauto
+# from pywinauto import application, timings
 import pyautogui
 
 ###########################################
